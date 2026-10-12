@@ -36,6 +36,11 @@ on:
         type: boolean
         required: false
         default: true
+      windows-only:
+        description: "Build only Windows x64 (skips macOS, Linux, Flatpak, FreeBSD, Web, riscv64 and other Windows arches)"
+        type: boolean
+        required: false
+        default: true
       wix-version:
         description: "Version of WiX tool to install"
         type: string
@@ -108,6 +113,7 @@ jobs:
           app-title: ${{ inputs.app-title }}
 
   macos:
+    if: ${{ !inputs.windows-only }}
     name: macOS universal
     needs: version
     runs-on: macos-15  # free standard runner (xlarge is a paid larger runner)
@@ -215,10 +221,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - { arch: x64, target: x86_64-pc-windows-msvc }
-          - { arch: x86, target: i686-pc-windows-msvc }
-          - { arch: arm64, target: aarch64-pc-windows-msvc }
+        include: ${{ fromJSON(inputs.windows-only && '[{"arch":"x64","target":"x86_64-pc-windows-msvc"}]' || '[{"arch":"x64","target":"x86_64-pc-windows-msvc"},{"arch":"x86","target":"i686-pc-windows-msvc"},{"arch":"arm64","target":"aarch64-pc-windows-msvc"}]') }}
     env:
       CARGO_TERM_COLOR: always
       CARGO_INCREMENTAL: 0
@@ -309,6 +312,7 @@ jobs:
           if-no-files-found: error
 
   linux:
+    if: ${{ !inputs.windows-only }}
     name: Linux ${{ matrix.arch }}
     needs: version
     runs-on: ${{ matrix.runner }}
@@ -407,6 +411,7 @@ jobs:
           if-no-files-found: error
 
   flatpak:
+    if: ${{ !inputs.windows-only }}
     name: Flatpak ${{ matrix.arch }}
     needs: [version, linux]
     runs-on: ${{ matrix.runner }}
@@ -485,7 +490,7 @@ jobs:
 
   freebsd:
     name: FreeBSD x86_64
-    if: inputs.has-freebsd
+    if: ${{ !inputs.windows-only && inputs.has-freebsd }}
     needs: version
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -590,7 +595,7 @@ jobs:
 
   web:
     name: Web (wasm)
-    if: inputs.has-web
+    if: ${{ !inputs.windows-only && inputs.has-web }}
     needs: version
     runs-on: ubuntu-latest
     env:
@@ -665,7 +670,7 @@ jobs:
 
   linux-riscv64:
     name: Linux riscv64
-    if: inputs.has-riscv64
+    if: ${{ !inputs.windows-only && inputs.has-riscv64 }}
     needs: version
     runs-on: ubuntu-24.04
     env:
