@@ -110,7 +110,7 @@ jobs:
   macos:
     name: macOS universal
     needs: version
-    runs-on: macos-15-xlarge
+    runs-on: macos-15  # free standard runner (xlarge is a paid larger runner)
     environment: release
     env:
       CARGO_TERM_COLOR: always
