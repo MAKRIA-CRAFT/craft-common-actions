@@ -40,7 +40,7 @@ concurrency:
 
 jobs:
   release:
-    uses: storytold/craft-common-actions/.github/workflows/release.yml@main
+    uses: MAKRIA-CRAFT/craft-common-actions/.github/workflows/release.yml@main
     with:
       app-name: photocraft
       app-title: PhotoCraft
@@ -81,7 +81,7 @@ concurrency:
 
 jobs:
   lint:
-    uses: storytold/craft-common-actions/.github/workflows/packaging-lint.yml@main
+    uses: MAKRIA-CRAFT/craft-common-actions/.github/workflows/packaging-lint.yml@main
 ```
 
 ### 3. `windows-arm64.yml`
@@ -115,7 +115,7 @@ permissions:
 
 jobs:
   windows-arm64:
-    uses: storytold/craft-common-actions/.github/workflows/windows-arm64.yml@main
+    uses: MAKRIA-CRAFT/craft-common-actions/.github/workflows/windows-arm64.yml@main
     with:
       app-name: wordcraft
       app-dir: WordCraft
@@ -148,7 +148,7 @@ permissions:
 
 jobs:
   freebsd:
-    uses: storytold/craft-common-actions/.github/workflows/freebsd.yml@main
+    uses: MAKRIA-CRAFT/craft-common-actions/.github/workflows/freebsd.yml@main
     with:
       craft-fonts-ref: 8dcdacd5153e64560d109541a47d806f26f048c0
 ```
@@ -157,7 +157,7 @@ jobs:
 
 Individual actions are also available for composing custom pipelines:
 
-- `actions/checkout-craft-fonts`: Checks out `storytold/craft-fonts` at a designated ref.
+- `actions/checkout-craft-fonts`: Checks out `MAKRIA-CRAFT/craft-fonts` at a designated ref.
 - `actions/resolve-version`: Slices version from `packaging/env.sh` and validates format.
 - `actions/install-wix`: Installs WiX toolset and UI/Util extensions.
 - `actions/install-nfpm`: Installs `nfpm` with strict SHA256 checksum verification.
@@ -169,4 +169,4 @@ Individual actions are also available for composing custom pipelines:
 
 ## Storytold Organization Hosting
 
-This repository is hosted at `storytold/craft-common-actions` for all Storytold / ArtCraft craftapps.
+This repository is hosted at `MAKRIA-CRAFT/craft-common-actions` for all Storytold / ArtCraft craftapps.
